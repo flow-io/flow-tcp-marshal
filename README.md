@@ -47,9 +47,7 @@ This method is a setter/getter. If no `format` is provided, returns the marshal 
 flow.marshal( 'number' );
 ```
 
-Available formats include: `json`, `number`, `string`, and `boolean`.
-
-The default marshal format is `json`.
+Available formats include: `json`, `number`, `string`, and `boolean`. The default marshal format is `json`.
 
 
 #### flow.stream()
