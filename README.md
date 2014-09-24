@@ -22,18 +22,56 @@ To create a stream factory,
 var flowFactory = require( 'flow-tcp-marshal' );
 
 // Create a new factory:
-var flowStream = flowFactory();
+var flow = flowFactory();
 ```
 
 The factory has the following methods...
 
 
-#### flowStream.stream()
+#### flow.delimiter( [value] )
+
+This method is a setter/getter. If no `delimiter` is provided, returns the `delimiter` used when marshalling streamed data. To set the `delimiter`,
+
+``` javascript
+flow.delimiter( ' | ' );
+```
+
+The default `delimiter` is a line feed: `\n`.
+
+
+#### flow.marshal( [format] )
+
+This method is a setter/getter. If no `format` is provided, returns the marshal `format`. To set the `format`,
+
+``` javascript
+flow.marshal( 'number' );
+```
+
+Available formats include: `json`, `number`, `string`, and `boolean`.
+
+The default marshal format is `json`.
+
+
+#### flow.stream()
 
 To create a new stream,
 
 ``` javascript
 var stream = flowStream.stream();
+```
+
+
+## Notes
+
+When used as setters, all setter/getter methods are chainable. For example,
+
+``` javascript
+var flowFactory = require( 'flow-tcp-marshal' );
+
+var stream = flowFactory()
+	.delimiter( ' | ' )
+	.marshal( 'number' )
+	.stream();
 ```
 
 
@@ -44,7 +82,7 @@ var eventStream = require( 'event-stream' ),
 	flowFactory = require( 'flow-tcp-marshal' );
 
 // Create some data...
-var data = new Array( 1000 );
+var data = new Array( 20 );
 for ( var i = 0; i < data.length; i++ ) {
 	data[ i ] = Math.random();
 }
@@ -53,13 +91,16 @@ for ( var i = 0; i < data.length; i++ ) {
 var readStream = eventStream.readArray( data );
 
 // Create a new stream:
-var stream = flowFactory().stream();
+var stream = flowFactory()
+	.delimiter( ' | ' )
+	.marshal( 'number' )
+	.stream();
 
 // Pipe the data:
 readStream
 	.pipe( stream )
 	.pipe( eventStream.map( function( d, clbk ){
-		clbk( null, d.toString()+'\n' );
+		clbk( null, d.toString() );
 	}))
 	.pipe( process.stdout );
 ```

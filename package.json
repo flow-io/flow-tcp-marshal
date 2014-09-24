@@ -25,18 +25,24 @@
   "keywords": [
     "stream",
     "flow",
-    "flow.io"
+    "flow.io",
+    "tcp",
+    "marshal"
   ],
   "bugs": {
     "url": "https://github.com/flow-io/flow-tcp-marshal/issues"
   },
-  "dependencies": {},
+  "dependencies": {
+    "through2": "^0.6.2"
+  },
   "devDependencies": {
     "chai": "1.x.x",
-    "mocha": "1.x.x",
     "coveralls": "^2.11.1",
+    "event-stream": "^3.1.7",
+    "flow-mock-read": "^1.0.0",
+    "flow-mock-write": "^1.0.1",
     "istanbul": "^0.3.0",
-    "event-stream": "^3.1.7"
+    "mocha": "1.x.x"
   },
   "licenses": [
     {
